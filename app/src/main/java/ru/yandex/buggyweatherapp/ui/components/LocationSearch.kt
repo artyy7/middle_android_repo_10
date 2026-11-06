@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import ru.yandex.buggyweatherapp.api.RetrofitInstance
 import ru.yandex.buggyweatherapp.repository.LocationRepository
 import ru.yandex.buggyweatherapp.repository.WeatherRepository
 
@@ -86,7 +85,7 @@ fun LocationSearchWithDirectApiCall() {
             IconButton(onClick = { 
                 if (searchText.isNotBlank()) {
                     
-                    weatherRepository.getWeatherByCity(searchText) { weatherData, error -> }
+                    weatherRepository.getWeatherByCity(searchText) { weatherData, location , error -> }
                 }
             }) {
                 Icon(Icons.Default.Search, contentDescription = "Search")

@@ -15,10 +15,4 @@ data class Location(
         }
         return result
     }
-    
-    
-    override fun equals(other: Any?): Boolean {
-        if (other !is Location) return false
-        return latitude == other.latitude && longitude == other.longitude
-    }
 }

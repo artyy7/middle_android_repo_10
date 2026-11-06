@@ -4,13 +4,15 @@ import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import ru.yandex.buggyweatherapp.BuildConfig
+
 
 interface WeatherApiService {
     
     
     companion object {
-        const val API_KEY = "8fd9a0f2216e2bc16a09102e2af8ab1d"
-        const val BASE_URL = "http://api.openweathermap.org/data/2.5/"
+        const val API_KEY = BuildConfig.WEATHER_API_KEY
+        const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
     }
     
     

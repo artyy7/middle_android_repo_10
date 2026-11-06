@@ -1,7 +1,21 @@
+import java.util.Properties
+import kotlin.apply
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+}
+
+val secretsProperties = Properties().apply {
+    val file = rootProject.file("secrets.properties")
+    check(file.exists()) {
+        "secrets.properties not found"
+    }
+    file.inputStream().use { load(it) }
+}
+val weatherApiKey: String = checkNotNull(secretsProperties.getProperty("WEATHER_API_KEY")) {
+    "API key is missing, add your key"
 }
 
 android {
@@ -14,6 +28,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "WEATHER_API_KEY", "\"$weatherApiKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +51,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

@@ -10,6 +10,8 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import ru.yandex.buggyweatherapp.model.Location
 import ru.yandex.buggyweatherapp.utils.LocationTracker
 import java.util.Locale
@@ -74,6 +76,9 @@ class LocationRepository(
                             longitude = location.longitude
                         )
                         currentLocation = userLocation
+
+                        fusedLocationClient.removeLocationUpdates(this)
+
                         callback(userLocation)
                         
                         
@@ -92,9 +97,8 @@ class LocationRepository(
             callback(null)
         }
     }
-    
-    
-    fun getCityNameFromLocation(location: Location): String? {
+
+    suspend fun getCityNameFromLocation(location: Location): String? = withContext(Dispatchers.IO) {
         try {
             
             val geocoder = Geocoder(context, Locale.getDefault())
@@ -102,7 +106,7 @@ class LocationRepository(
             @Suppress("DEPRECATION")
             val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
             
-            return if (!addresses.isNullOrEmpty()) {
+            if (!addresses.isNullOrEmpty()) {
                 val address = addresses[0]
                 if (address.locality != null) {
                     address.locality
@@ -116,7 +120,7 @@ class LocationRepository(
             }
         } catch (e: Exception) {
             Log.e("LocationRepository", "Error getting city name", e)
-            return null
+            null
         }
     }
     

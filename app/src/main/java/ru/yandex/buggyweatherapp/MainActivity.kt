@@ -21,8 +21,8 @@ import ru.yandex.buggyweatherapp.ui.theme.BuggyWeatherAppTheme
 import ru.yandex.buggyweatherapp.viewmodel.WeatherViewModel
 
 class MainActivity : ComponentActivity() {
-    
-    private val weatherViewModel = WeatherViewModel()
+
+    private val weatherViewModel: WeatherViewModel by viewModels()
     
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
